@@ -23,7 +23,7 @@ func GetUserInstance() interfaces.IUser {
 func (db *OpenConnection) GetFindUserAll() ([]entities.User, error) {
 	var users []entities.User
 	db.mux.Lock()
-	err := db.connection.Order("id desc").Find(&users).Error
+	err := db.connection.Preload("Church").Preload("Rol").Preload("TeamPesca").Order("id desc").Find(&users).Error
 	defer database.Closedb()
 	defer db.mux.Unlock()
 	return users, err
